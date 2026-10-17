@@ -1,0 +1,2 @@
+GET {{baseUrl}}/api/post/page?offset=0&limit=10
+Accept: application/json

@@ -1,1 +1,5 @@
 *.env
+
+backend/config.yml
+tests/http-client.private.env.json
+tests/.token.json

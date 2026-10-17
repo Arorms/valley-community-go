@@ -1,0 +1,2 @@
+GET {{baseUrl}}/api/post?id=1
+Accept: application/json

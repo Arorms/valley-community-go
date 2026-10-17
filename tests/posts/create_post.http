@@ -1,0 +1,9 @@
+### Create new post
+POST {{baseUrl}}/api/post
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+  "title": "Test5",
+  "content": "Test content"
+}

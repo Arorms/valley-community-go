@@ -1,0 +1,4 @@
+### 获取当前用户信息
+GET {{baseUrl}}/api/auth/me
+Authorization: Bearer {{accessToken}}
+Accept: application/json
