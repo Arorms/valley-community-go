@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>{{template "head" .}}</head>
+<body class="min-h-screen bg-background text-foreground">
+{{template "sidebar" .}}
+<div class="lg:pl-[240px]">
+  {{template "header" .}}
+  <main class="mx-auto w-full max-w-[900px] px-4 py-6 lg:px-8 lg:py-8">
+    {{template "flash" .}}
+    <div class="mb-5 flex items-end justify-between gap-4">
+      <div>
+        <h1 class="text-[22px] font-semibold leading-tight">通知</h1>
+        <p class="mt-1 text-[13px] text-muted-foreground">共 {{.Total}} 条</p>
+      </div>
+      <form method="post" action="/notifications/read">
+        <input type="hidden" name="_csrf" value="{{.User.CSRFToken}}">
+        <button type="submit" class="inline-flex items-center rounded-full border border-border bg-card px-3 py-1.5 text-[12px] text-muted-foreground transition hover:bg-muted hover:text-foreground">全部标为已读</button>
+      </form>
+    </div>
+
+    {{if .Notifications}}
+    <div class="space-y-2">
+      {{range .Notifications}}
+      <a href="{{.Link}}" class="block rounded-[var(--radius)] border border-border bg-card p-4 transition hover:border-primary/30 {{if not .Read}}ring-1 ring-primary/10{{end}}">
+        <div class="flex items-start gap-3">
+          {{template "avatar" .Actor}}
+          <div class="min-w-0 flex-1">
+            <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px]">
+              <span class="font-medium">{{.Actor.DisplayName}}</span>
+              <span class="text-muted-foreground">{{notificationText .Type}}</span>
+              {{if not .Read}}<span class="h-1.5 w-1.5 rounded-full bg-primary"></span>{{end}}
+              <span class="text-[12px] text-muted-foreground">· {{relativeTime .CreatedAt}}</span>
+            </div>
+            {{if .Title}}<div class="mt-1 truncate text-[13px] font-medium">{{.Title}}</div>{{end}}
+            {{if .Body}}<div class="mt-1 line-clamp-2 text-[12px] text-muted-foreground">{{.Body}}</div>{{end}}
+          </div>
+        </div>
+      </a>
+      {{end}}
+    </div>
+    {{template "pagination" .}}
+    {{else}}
+    <div class="rounded-[var(--radius)] border border-border bg-card p-10 text-center shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none">
+      <p class="text-[13px] text-muted-foreground">还没有通知。</p>
+    </div>
+    {{end}}
+  </main>
+</div>
+{{template "footer" .}}
+</body>
+</html>

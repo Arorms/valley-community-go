@@ -1,0 +1,52 @@
+{{define "comment"}}
+{{$comment := .Comment}}
+{{$user := .User}}
+<article id="comment-{{$comment.ID}}" class="rounded-[var(--radius)] border border-border bg-card p-4">
+  <div class="flex items-start gap-3">
+    {{template "avatar" $comment.Author}}
+    <div class="min-w-0 flex-1">
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+        <a href="/users/{{$comment.Author.Username}}" class="text-[13px] font-medium transition hover:text-primary">{{$comment.Author.DisplayName}}</a>
+        <span class="text-[11px] text-muted-foreground">@{{$comment.Author.Username}}</span>
+        {{if $comment.ReplyTo}}
+        <span class="text-[12px] text-muted-foreground">回复 <span class="text-foreground">@{{$comment.ReplyTo.Username}}</span></span>
+        {{end}}
+        <span class="text-[12px] text-muted-foreground">· {{relativeTime $comment.CreatedAt}}</span>
+      </div>
+
+      <div class="markdown-body mt-2">{{safeHTML $comment.ContentHTML}}</div>
+
+      <div class="mt-3 flex flex-wrap items-center gap-3">
+        {{if $user}}
+        <form method="post" action="/comments/{{$comment.ID}}/like">
+          <input type="hidden" name="_csrf" value="{{$user.CSRFToken}}">
+          <input type="hidden" name="post_id" value="{{$comment.PostID}}">
+          <input type="hidden" name="return_to" value="/posts/{{$comment.PostID}}#comment-{{$comment.ID}}">
+          <button type="submit" class="inline-flex items-center gap-1 rounded-full border border-border px-2.5 py-1 text-[12px] transition hover:bg-muted {{if $comment.Liked}}border-primary/30 text-primary{{else}}text-muted-foreground{{end}}">
+            <span>♥</span><span>{{$comment.LikeCount}}</span>
+          </button>
+        </form>
+        <details class="min-w-0">
+          <summary class="cursor-pointer list-none rounded-full border border-border px-2.5 py-1 text-[12px] text-muted-foreground transition hover:bg-muted hover:text-foreground">回复</summary>
+          <form method="post" action="/posts/{{$comment.PostID}}/comments" class="mt-2 space-y-2">
+            <input type="hidden" name="_csrf" value="{{$user.CSRFToken}}">
+            <input type="hidden" name="parent_id" value="{{$comment.ID}}">
+            <textarea name="content" rows="2" required placeholder="回复 @{{$comment.Author.Username}}…" class="w-full rounded-xl border border-transparent bg-muted px-3 py-2.5 text-[13px] text-foreground placeholder:text-muted-foreground focus:border-border focus:bg-card focus:outline-none focus:ring-4 focus:ring-primary/10"></textarea>
+            <div class="flex justify-end"><button type="submit" class="inline-flex items-center rounded-full bg-primary px-3 py-1.5 text-[12px] font-medium text-primary-foreground transition hover:bg-primary/90">发送</button></div>
+          </form>
+        </details>
+        {{else}}
+        <span class="text-[12px] text-muted-foreground">♥ {{$comment.LikeCount}}</span>
+        <a href="/auth/login?return_to=/posts/{{$comment.PostID}}" class="text-[12px] text-muted-foreground transition hover:text-primary">登录后回复</a>
+        {{end}}
+      </div>
+    </div>
+  </div>
+
+  {{if $comment.Replies}}
+  <div class="mt-3 ml-4 space-y-3 border-l border-border pl-4">
+    {{range $comment.Replies}}{{template "comment" (dict "Comment" . "User" $user)}}{{end}}
+  </div>
+  {{end}}
+</article>
+{{end}}

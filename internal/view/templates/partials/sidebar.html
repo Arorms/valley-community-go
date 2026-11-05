@@ -1,0 +1,53 @@
+{{define "sidebar"}}
+<aside id="sidebar" class="fixed inset-y-0 left-0 z-40 flex w-[240px] -translate-x-full flex-col border-r border-border bg-card transition-transform duration-200 lg:translate-x-0">
+  <div class="flex h-[56px] items-center gap-2 border-b border-border px-4">
+    <a href="/" class="flex items-center gap-2">
+      <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-[13px] font-semibold text-background">V</span>
+      <span class="text-[14px] font-semibold tracking-tight">Valley Community</span>
+    </a>
+  </div>
+
+  <nav class="flex-1 space-y-1 overflow-y-auto p-3">
+    <a href="/" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] leading-none {{if eq .Active "home"}}bg-primary text-primary-foreground shadow-sm{{else}}text-muted-foreground hover:bg-muted hover:text-foreground{{end}}">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+      <span>首页</span>
+    </a>
+    {{if .User}}
+    <a href="/favorites" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] leading-none {{if eq .Active "favorites"}}bg-primary text-primary-foreground shadow-sm{{else}}text-muted-foreground hover:bg-muted hover:text-foreground{{end}}">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg>
+      <span>我的收藏</span>
+    </a>
+    <a href="/notifications" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] leading-none {{if eq .Active "notifications"}}bg-primary text-primary-foreground shadow-sm{{else}}text-muted-foreground hover:bg-muted hover:text-foreground{{end}}">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10.3 21a2 2 0 0 0 3.4 0"/></svg>
+      <span class="flex-1">通知</span>
+      {{if gt .Unread 0}}<span class="flex h-5 min-w-5 items-center justify-center rounded-full bg-danger px-1.5 text-[10px] font-medium text-white">{{.Unread}}</span>{{end}}
+    </a>
+    <a href="/users/{{.User.Username}}" class="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] leading-none {{if eq .Active "profile"}}bg-primary text-primary-foreground shadow-sm{{else}}text-muted-foreground hover:bg-muted hover:text-foreground{{end}}">
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      <span>个人资料</span>
+    </a>
+    {{end}}
+  </nav>
+
+  <div class="border-t border-border p-3">
+    {{if .User}}
+    <div class="flex items-center gap-2.5 rounded-xl bg-muted p-2.5">
+      {{template "avatar" .User}}
+      <div class="min-w-0 flex-1">
+        <div class="truncate text-[13px] font-medium">{{if .User.Nickname}}{{.User.Nickname}}{{else}}{{.User.Username}}{{end}}</div>
+        <div class="truncate text-[11px] text-muted-foreground">@{{.User.Username}}</div>
+      </div>
+      <form method="post" action="/auth/logout">
+        <input type="hidden" name="_csrf" value="{{.User.CSRFToken}}">
+        <button type="submit" title="退出登录" aria-label="退出登录" class="rounded-lg p-2 text-muted-foreground transition hover:bg-card hover:text-foreground">
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+        </button>
+      </form>
+    </div>
+    {{else}}
+    <a href="/auth/login" class="flex w-full items-center justify-center rounded-full bg-primary px-4 py-2 text-[13px] font-medium text-primary-foreground shadow-sm transition hover:bg-primary/90">登录</a>
+    {{end}}
+  </div>
+</aside>
+<div id="sidebar-overlay" class="fixed inset-0 z-30 hidden bg-black/20 backdrop-blur-sm lg:hidden"></div>
+{{end}}

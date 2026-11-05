@@ -1,5 +1,8 @@
 *.env
 
+node_modules/
+bin/
+
 config.yml
 tests/http-client.private.env.json
 tests/.token.json

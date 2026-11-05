@@ -1,0 +1,12 @@
+{
+  "name": "valley-community-go",
+  "private": true,
+  "scripts": {
+    "css": "tailwindcss -i ./internal/view/static/css/input.css -o ./internal/view/static/css/app.css --minify",
+    "watch:css": "tailwindcss -i ./internal/view/static/css/input.css -o ./internal/view/static/css/app.css --watch"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "tailwindcss": "^4.2.1"
+  }
+}

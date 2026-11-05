@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>{{template "head" .}}</head>
+<body class="min-h-screen bg-background text-foreground">
+{{template "sidebar" .}}
+<div class="lg:pl-[240px]">
+  {{template "header" .}}
+  <main class="mx-auto w-full max-w-[900px] px-4 py-6 lg:px-8 lg:py-8">
+    {{template "flash" .}}
+    <h1 class="text-[22px] font-semibold leading-tight">发帖</h1>
+    <p class="mt-1 text-[13px] text-muted-foreground">支持 Markdown，发布后会渲染为 HTML。</p>
+
+    {{if .Error}}
+    <div class="mt-4 rounded-xl border border-danger/25 bg-danger/10 px-3 py-2.5 text-[13px] text-danger">{{.Error}}</div>
+    {{end}}
+
+    <form method="post" action="/posts" class="mt-4 space-y-4 rounded-[var(--radius)] border border-border bg-card p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none">
+      <input type="hidden" name="_csrf" value="{{.User.CSRFToken}}">
+      <div>
+        <label for="title" class="mb-1.5 block text-[11px] font-medium text-muted-foreground">标题</label>
+        <input id="title" name="title" value="{{.FormTitle}}" maxlength="200" required placeholder="给帖子起个标题"
+               class="w-full rounded-xl border border-transparent bg-muted px-3 py-2.5 text-[18px] font-medium text-foreground placeholder:text-muted-foreground focus:border-border focus:bg-card focus:outline-none focus:ring-4 focus:ring-primary/10">
+      </div>
+      <div>
+        <label for="content" class="mb-1.5 block text-[11px] font-medium text-muted-foreground">正文（Markdown）</label>
+        <textarea id="content" name="content" rows="16" required placeholder="# 标题&#10;&#10;写下你的内容…"
+                  class="w-full rounded-xl border border-border bg-card px-3 py-3 font-mono text-[13px] leading-relaxed text-foreground placeholder:text-muted-foreground focus:border-primary/40 focus:outline-none focus:ring-4 focus:ring-primary/10">{{.FormContent}}</textarea>
+      </div>
+      <div class="flex items-center justify-end gap-2">
+        <a href="/" class="inline-flex items-center rounded-xl border border-border bg-card px-4 py-2 text-[13px] transition hover:bg-muted">取消</a>
+        <button type="submit" class="inline-flex items-center rounded-full bg-primary px-4 py-2 text-[13px] font-medium text-primary-foreground shadow-sm transition hover:bg-primary/90">发布</button>
+      </div>
+    </form>
+  </main>
+</div>
+{{template "footer" .}}
+</body>
+</html>

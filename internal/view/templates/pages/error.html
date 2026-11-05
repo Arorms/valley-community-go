@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>{{template "head" .}}</head>
+<body class="min-h-screen bg-background text-foreground">
+{{template "sidebar" .}}
+<div class="lg:pl-[240px]">
+  {{template "header" .}}
+  <main class="mx-auto w-full max-w-[640px] px-4 py-16">
+    <div class="rounded-[var(--radius)] border border-border bg-card p-10 text-center shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none">
+      <p class="text-[13px] text-muted-foreground">{{.Message}}</p>
+      <a href="/" class="mt-4 inline-flex items-center rounded-full bg-primary px-4 py-2 text-[13px] font-medium text-primary-foreground transition hover:bg-primary/90">返回首页</a>
+    </div>
+  </main>
+</div>
+{{template "footer" .}}
+</body>
+</html>

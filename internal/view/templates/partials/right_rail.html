@@ -1,0 +1,21 @@
+{{define "right_rail"}}
+<aside class="hidden w-[280px] shrink-0 space-y-4 xl:block">
+  <section class="rounded-[var(--radius)] border border-border bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none">
+    <h2 class="text-[13px] font-semibold">关于 Valley Community</h2>
+    <p class="mt-2 text-[12px] leading-relaxed text-muted-foreground">一个安静的开发者社区。分享想法、提出问题、记录折腾过程。</p>
+  </section>
+
+  <section class="rounded-[var(--radius)] border border-border bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none">
+    <h2 class="text-[13px] font-semibold">社区提示</h2>
+    <ul class="mt-2 space-y-1.5 text-[12px] leading-relaxed text-muted-foreground">
+      <li>· 帖子和评论支持 Markdown</li>
+      <li>· 用 @用户名 通知对方</li>
+      <li>· 收藏喜欢的帖子稍后再看</li>
+    </ul>
+  </section>
+
+  {{if not .User}}
+  <a href="/auth/login" class="flex items-center justify-center rounded-full bg-primary px-4 py-2.5 text-[13px] font-medium text-primary-foreground shadow-sm transition hover:bg-primary/90">登录 / 加入社区</a>
+  {{end}}
+</aside>
+{{end}}

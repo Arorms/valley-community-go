@@ -1,0 +1,20 @@
+{{define "post_card"}}
+<a href="/posts/{{.ID}}" class="group block rounded-[var(--radius)] border border-border bg-card p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] transition hover:border-primary/30 dark:shadow-none">
+  <div class="flex items-start gap-3">
+    {{template "avatar" .Author}}
+    <div class="min-w-0 flex-1">
+      <h2 class="truncate text-[15px] font-semibold leading-snug transition group-hover:text-primary">{{.Title}}</h2>
+      <p class="mt-1 line-clamp-2 text-[13px] leading-relaxed text-muted-foreground">{{.Excerpt}}</p>
+      <div class="mt-2.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-muted-foreground">
+        <span>{{.Author.DisplayName}}</span>
+        <span>·</span>
+        <span>{{relativeTime .CreatedAt}}</span>
+        <span>·</span>
+        <span>评论 {{.CommentCount}}</span>
+        <span>·</span>
+        <span>赞 {{.LikeCount}}</span>
+      </div>
+    </div>
+  </div>
+</a>
+{{end}}

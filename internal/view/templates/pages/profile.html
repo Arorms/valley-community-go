@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>{{template "head" .}}</head>
+<body class="min-h-screen bg-background text-foreground">
+{{template "sidebar" .}}
+<div class="lg:pl-[240px]">
+  {{template "header" .}}
+  <main class="mx-auto w-full max-w-[1100px] px-4 py-6 lg:px-8 lg:py-8">
+    {{template "flash" .}}
+
+    <section class="rounded-[var(--radius)] border border-border bg-card p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)] dark:shadow-none">
+      <div class="flex items-center gap-4">
+        {{if .Profile.AvatarURL}}
+        <img src="{{.Profile.AvatarURL}}" alt="" class="h-16 w-16 rounded-2xl object-cover ring-1 ring-border">
+        {{else}}
+        <span class="flex h-16 w-16 items-center justify-center rounded-2xl bg-foreground text-[22px] font-semibold text-background">{{.Profile.Initials}}</span>
+        {{end}}
+        <div class="min-w-0">
+          <h1 class="truncate text-[22px] font-semibold leading-tight">{{.Profile.DisplayName}}</h1>
+          <p class="mt-1 text-[13px] text-muted-foreground">@{{.Profile.Username}}</p>
+          <p class="mt-1 text-[12px] text-muted-foreground">共 {{.Total}} 篇帖子{{if .IsMe}} · 这是你的主页{{end}}</p>
+        </div>
+      </div>
+    </section>
+
+    <h2 class="mb-3 mt-6 text-[15px] font-semibold">发布的帖子</h2>
+    {{if .Posts}}
+    <div class="space-y-3">
+      {{range .Posts}}{{template "post_card" .}}{{end}}
+    </div>
+    {{template "pagination" .}}
+    {{else}}
+    <div class="rounded-[var(--radius)] border border-border bg-card p-8 text-center text-[13px] text-muted-foreground">还没有发布过帖子。</div>
+    {{end}}
+  </main>
+</div>
+{{template "footer" .}}
+</body>
+</html>
