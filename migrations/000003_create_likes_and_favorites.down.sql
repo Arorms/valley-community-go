@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS favorites;
+DROP TABLE IF EXISTS comment_likes;
+DROP TABLE IF EXISTS post_likes;
